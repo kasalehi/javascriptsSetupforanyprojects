@@ -4,22 +4,31 @@ module.exports = {
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist/assets'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: '/assets/',
   },
   devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
-    publicPath: '/assets/'
+    static: {
+      directory: path.resolve(__dirname, 'dist'),
+    },
+    devMiddleware: {
+      publicPath: '/assets/',
+    },
+    port: 8080,
+    open: true,
   },
   module: {
-    rules: [{
-      test: /\.js$/,
-      exclude: /node_modules/,
-      use: {
-        loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-env']
-        }
-      }
-    }]
-  }
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+          },
+        },
+      },
+    ],
+  },
 };
